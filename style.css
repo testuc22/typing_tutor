@@ -1,0 +1,39 @@
+.header-block {
+    background-color: black;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.normal-text {
+    font-size: 16px;
+    color: #605858;
+}
+.normal-text.active-char {
+    color: green;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 17px;
+}
+.normal-text.wrong-char {
+    color: #000;
+    font-weight: bold;
+    font-size: 17px;
+    background: #ce8a8a;
+}
+#test-area {
+    width: 100%;
+    margin: 20px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    min-height: 200px;
+    padding: 11px;
+}
+.results{
+	display: flex;
+	justify-content: space-around;
+}
+.results  span{
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
