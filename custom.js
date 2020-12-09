@@ -8,13 +8,19 @@ var typing = {
 	 	wrong_char                : 0,
 	 	typing_counter            : 0,
 	 	_total_count_block        : $('.results .total'),
-	 	_correct_count_block      : ''
+	 	_correct_count_block      : $('.results .right-char'),
+	 	_wrong_count_block        : $('.results .wrong-char'),
 	},	
 	init:function(){
 		this.vars._total_char= this.vars._exercise_paragraph_block.text().length;
-
 		this.init_exercise_paragraph();
 		this.initEvents();
+		this.showTotalChars();
+	},
+	showTotalChars:function(){
+		this.vars._total_count_block.html(this.vars._total_char);
+		this.vars._correct_count_block.html(this.vars.correct_char);
+		this.vars._wrong_count_block.html(this.vars.wrong_char);
 	},
 	init_exercise_paragraph:function(){
 		let paragraph = this.vars._exercise_paragraph_block.text();
@@ -27,6 +33,8 @@ var typing = {
 			this.vars._exercise_paragraph_block.html(_html);
 			this.highlight_character(0);
 		}
+		
+		
 	},
 	highlight_character:function(index){
 		this.vars._exercise_paragraph_block.find('.normal-text').removeClass('active-char');
@@ -38,10 +46,19 @@ var typing = {
 			var charCode = evt.which || evt.keyCode;
 			var charStr = String.fromCharCode(charCode);
 
-		   	if (/[A-Za-z0-9\!\@#\$%\^&\*\(\)\-\_+= ]+$/.test(charStr)) {
+		   	if (/[A-Za-z0-9\!\@#\$%\^&\*\(\)\-\_+= \'\"\?\>\<\:\;\/\.\,\[\]\{\}\\\|]+$/.test(charStr)) {
 		       	var isValidChar = parent_obj.validateCharacter(charStr);
 		   	}	
 		   	return;
+		})
+
+		this.vars._test_block.on('keydown',function(evt){
+			var charCode = evt.which || evt.keyCode;
+			var charStr = String.fromCharCode(charCode);
+			console.log(charCode,"keydown");
+			if(charCode==8){
+				$(this).val($(this).val()+charStr);
+			}
 		})
 	},
 	validateCharacter:function(char){
@@ -51,12 +68,15 @@ var typing = {
 		if(char === originalChar){
 			console.log("correct");
 			this.vars.typing_counter++;
+			this.vars.correct_char++;
 			this.highlight_character(this.vars.typing_counter);
 		}
 		else{
 			console.log("wrong");
+			this.vars.wrong_char++;
 			this.highlight_wrong_character();
 		}
+		this.showTotalChars();
 	},
 	highlight_wrong_character:function(){
 		var index = this.vars.typing_counter;
